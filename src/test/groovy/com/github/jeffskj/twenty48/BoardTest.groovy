@@ -26,31 +26,33 @@ class BoardTest {
     
     @Test
     void canMoveToEdgeofBoard() {
-        b.board[new Point(0, 0)] = 2
+        b.set(0,0, 2)
         b.move(Direction.RIGHT)
         println b.board
         assertEquals(1, b.board.size())
-        assertEquals(2, b.board[new Point(3, 0)])
+        assertEquals(2, b.get(3, 0))
     }
     
     @Test
     void canMergeIfSameValue() {
-        b.board[new Point(0, 0)] = 2
-        b.board[new Point(2, 0)] = 2
+        b.set(0,0, 2)
+        b.set(2,0, 2)
         b.move(Direction.LEFT)
         println b
         
         assertEquals(1, b.board.size())
-        assertEquals(4, b.board[new Point(0, 0)])
-        
-        b.board[new Point(0, 1)] = 4
+        assertEquals(4, b.get(0, 0))
+    }
+    
+    @Test
+    void mergesAfterMovingBothPieces() {
+        b.set(0,0, 4)
+        b.set(0,1, 4)
         b.move(Direction.DOWN)
         
-        println ''
         println b
-        
         assertEquals(1, b.board.size())
-        assertEquals(8, b.board[new Point(0, 3)])
+        assertEquals(8, b.get(0,3))
     }
     
     @Test

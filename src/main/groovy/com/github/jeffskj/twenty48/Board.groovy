@@ -36,6 +36,14 @@ class Board {
         }
     }
     
+    void set(int x, int y, Integer value) {
+        board[new Point(x, y)] = value
+    }
+    
+    Integer get(int x, int y) {
+        return board[new Point(x, y)]   
+    }
+    
     boolean onBoard(Point p) {  p.x < SIZE && p.y < SIZE && p.x >= 0 && p.y >= 0 }
     
     String toString() {
@@ -48,9 +56,9 @@ class Board {
 }
 
 enum Direction { 
-    UP(0, 1, 0..3, 3..0), 
+    UP(0, -1, 0..3, 3..0), 
     RIGHT(1, 0, 3..0, 0..3), 
-    DOWN(0, -1, 0..3, 3..0), 
+    DOWN(0, 1, 0..3, 3..0), 
     LEFT(-1, 0, 0..3, 0..3)
     
     int x, y;
