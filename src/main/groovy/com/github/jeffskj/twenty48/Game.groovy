@@ -13,7 +13,7 @@ class Game {
         startTiles.times { addRandomTile() }
     }
     
-    void move(Direction dir) {
+    MoveResult move(Direction dir) {
         if (this.over || this.won) return
         
         def result = board.move(dir)
@@ -21,14 +21,20 @@ class Game {
         if (board.maxValue == 2048) { won = true }
         
         if (result.moved) {
-            if (!board.moveAvailable) { over = true }
             addRandomTile()
+            if (!board.moveAvailable) { over = true }
             score += result.scores                        
         }
+        
+        return result
     }
     
     void addRandomTile() {
         def avail = board.availableTiles
         board.set(avail[rand.nextInt(avail.size())], rand.nextInt(10) == 0 ? 4 : 2) 
+    }
+    
+    int getMaxTile() {
+        return board.maxValue
     }
 }

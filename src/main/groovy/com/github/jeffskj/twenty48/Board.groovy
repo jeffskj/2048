@@ -25,7 +25,9 @@ class Board {
         }
     }
     
-    MoveResult move(Map<Point, Number> board=this.board, Direction dir) {
+    MoveResult move(Direction dir, boolean pretend = false) {
+        def board = pretend ? board.clone() : board
+        
         def result = new MoveResult()
         
         for (y in dir.yTraverse) { 
@@ -38,7 +40,7 @@ class Board {
                             def v = board[p] * 2
                             board[dest] = v
                             board.remove(p)
-                            if (v > maxValue) {
+                            if (!pretend && v > maxValue) {
                                 maxValue = v
                             }
                             result.scores += v
@@ -62,7 +64,7 @@ class Board {
         if (!full) return true 
         
         // try to find first move that reduces the board size
-        return Direction.values().any { move(board.clone(), it).moved }
+        return Direction.values().any { move(it, true).moved }
     }
     
     boolean isFull() {
@@ -88,7 +90,7 @@ class Board {
     boolean onBoard(Point p) {  allTiles.contains(p) }
     
     String toString() {
-        def str = ' |' + (0..size-1).collect { it.toString().center(5) }.join('|')
+        def str = ''//' |' + (0..size-1).collect { it.toString().center(5) }.join('|')
         str += '\n' + (0..size-1).collect { y ->
            "$y|" + (0..size-1).collect { x ->  (board[new Point(x, y)] ?: '').toString().center(5) }.join('|')
         }.join('\n')
