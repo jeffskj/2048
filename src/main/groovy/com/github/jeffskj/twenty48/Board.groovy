@@ -25,8 +25,8 @@ class Board {
         }
     }
     
-    MoveResult move(Direction dir, boolean pretend = false) {
-        def board = pretend ? board.clone() : board
+    MoveResult move(Map<Point, Number> board=this.board, Direction dir) {
+        def pretend = !board.is(this.board)
         
         def result = new MoveResult()
         
@@ -64,7 +64,7 @@ class Board {
         if (!full) return true 
         
         // try to find first move that reduces the board size
-        return Direction.values().any { move(it, true).moved }
+        return Direction.values().any { move(board.clone(), it).moved }
     }
     
     boolean isFull() {
